@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qml-benchmark-studio.org/schemas/experiment_result.schema.json",
+  "title": "ExperimentResult",
+  "description": "Standardized schema for all model runs in QML Benchmark Studio.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "run_id",
+    "model_name",
+    "model_family",
+    "dataset_name",
+    "seed",
+    "status",
+    "configuration",
+    "metrics",
+    "timings",
+    "predictions",
+    "confusion_matrix",
+    "metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Semantic version of the result structure."
+    },
+    "experiment_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier of parent experiment execution."
+    },
+    "run_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this specific seed/model trial."
+    },
+    "model_name": {
+      "type": "string",
+      "enum": ["dummy", "svm", "mlp", "random_forest", "vqc", "qksvm"],
+      "description": "Specific model implementation name."
+    },
+    "model_family": {
+      "type": "string",
+      "enum": ["classical", "quantum"],
+      "description": "Broad theoretical family: classical baseline or quantum variational/kernel."
+    },
+    "dataset_name": {
+      "type": "string",
+      "description": "Name or identifier of the evaluated dataset."
+    },
+    "dataset_fingerprint": {
+      "type": "string",
+      "description": "SHA-256 hash or deterministic checksum of dataset partition."
+    },
+    "seed": {
+      "type": "integer",
+      "description": "Random seed used for this single trial."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "failed", "cancelled"],
+      "description": "Execution status for this run."
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Immutable snapshot of preprocessing, feature reduction, and model hyperparameters."
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "accuracy",
+        "precision_macro",
+        "recall_macro",
+        "f1_macro",
+        "f1_weighted",
+        "balanced_accuracy",
+        "roc_auc"
+      ],
+      "properties": {
+        "accuracy": { "type": ["number", "null"] },
+        "precision_macro": { "type": ["number", "null"] },
+        "recall_macro": { "type": ["number", "null"] },
+        "f1_macro": { "type": ["number", "null"] },
+        "f1_weighted": { "type": ["number", "null"] },
+        "balanced_accuracy": { "type": ["number", "null"] },
+        "roc_auc": { "type": ["number", "null"] }
+      }
+    },
+    "timings": {
+      "type": "object",
+      "required": [
+        "preprocessing_seconds",
+        "feature_selection_seconds",
+        "training_seconds",
+        "inference_seconds",
+        "kernel_construction_seconds"
+      ],
+      "properties": {
+        "preprocessing_seconds": { "type": ["number", "null"] },
+        "feature_selection_seconds": { "type": ["number", "null"] },
+        "training_seconds": { "type": ["number", "null"] },
+        "inference_seconds": { "type": ["number", "null"] },
+        "kernel_construction_seconds": { "type": ["number", "null"] },
+        "total_wall_clock_seconds": { "type": ["number", "null"] }
+      }
+    },
+    "predictions": {
+      "type": "array",
+      "items": { "type": ["integer", "string"] },
+      "description": "Array of test set predicted class labels."
+    },
+    "prediction_probabilities": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "array",
+        "items": { "type": "number" }
+      },
+      "description": "Optional predicted class probabilities for test partition."
+    },
+    "confusion_matrix": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": { "type": "integer" }
+      },
+      "description": "2D integer array representation of confusion matrix."
+    },
+    "trainability": {
+      "type": ["object", "null"],
+      "default": null,
+      "description": "Optional trainability diagnostics for VQC architectures.",
+      "properties": {
+        "qubit_count": { "type": ["integer", "null"] },
+        "circuit_depth": { "type": ["integer", "null"] },
+        "entanglement": { "type": ["string", "null"] },
+        "gradient_norm": { "type": ["number", "null"] },
+        "gradient_mean": { "type": ["number", "null"] },
+        "gradient_variance": { "type": ["number", "null"] },
+        "gradient_distribution": {
+          "type": ["array", "null"],
+          "items": { "type": "number" }
+        },
+        "training_loss_history": {
+          "type": ["array", "null"],
+          "items": { "type": "number" }
+        },
+        "validation_loss_history": {
+          "type": ["array", "null"],
+          "items": { "type": "number" }
+        }
+      }
+    },
+    "quantum_metadata": {
+      "type": ["object", "null"],
+      "default": null,
+      "description": "Optional quantum simulation diagnostic metadata.",
+      "properties": {
+        "simulator_backend": { "type": "string", "const": "default.qubit" },
+        "simulated_qubits": { "type": "integer", "minimum": 2, "maximum": 10 },
+        "circuit_depth": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "circuit_evaluations": { "type": ["integer", "null"] },
+        "disclaimer": {
+          "type": "string",
+          "const": "PennyLane default.qubit is a classical quantum circuit simulator. Quantum circuits are simulated on classical computing hardware. Therefore, experimental results from this project cannot establish practical quantum computational speedup over classical hardware."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["timestamp_utc", "python_version", "package_versions"],
+      "properties": {
+        "timestamp_utc": { "type": "string", "format": "date-time" },
+        "python_version": { "type": "string" },
+        "package_versions": {
+          "type": "object",
+          "properties": {
+            "pennylane": { "type": "string" },
+            "scikit_learn": { "type": "string" },
+            "numpy": { "type": "string" },
+            "pandas": { "type": "string" }
+          }
+        }
+      }
+    },
+    "error": {
+      "type": ["object", "null"],
+      "default": null,
+      "properties": {
+        "error_type": { "type": "string" },
+        "message": { "type": "string" },
+        "stage": { "type": "string" }
+      }
+    }
+  }
+}

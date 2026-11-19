@@ -1,0 +1,10 @@
+﻿fastapi==0.165.0
+matplotlib==3.11.2
+numpy==2.5.5
+pandas==3.1.1
+pennylane==0.45.1
+pennylane_lightning==0.45.0
+pytest==9.2.0
+python-multipart==0.0.34
+scikit-learn==1.9.1
+uvicorn==0.54.0

@@ -1,0 +1,410 @@
+{
+  "dataset_name": "wine",
+  "source": "Wine Recognition Dataset, Forina, M. et al., Institute of Pharmaceutical and Food Analysis and Technologies, Genoa (1991)",
+  "n_samples": 178,
+  "n_features": 13,
+  "n_classes": 3,
+  "feature_names": [
+    "alcohol",
+    "malic_acid",
+    "ash",
+    "alcalinity_of_ash",
+    "magnesium",
+    "total_phenols",
+    "flavanoids",
+    "nonflavanoid_phenols",
+    "proanthocyanins",
+    "color_intensity",
+    "hue",
+    "od280/od315_of_diluted_wines",
+    "proline"
+  ],
+  "dtypes": {
+    "alcohol": "float64",
+    "malic_acid": "float64",
+    "ash": "float64",
+    "alcalinity_of_ash": "float64",
+    "magnesium": "float64",
+    "total_phenols": "float64",
+    "flavanoids": "float64",
+    "nonflavanoid_phenols": "float64",
+    "proanthocyanins": "float64",
+    "color_intensity": "float64",
+    "hue": "float64",
+    "od280/od315_of_diluted_wines": "float64",
+    "proline": "float64"
+  },
+  "memory_usage_bytes": 20200,
+  "memory_usage_readable": "19.73 KB",
+  "target_names": [
+    "class_0",
+    "class_1",
+    "class_2"
+  ],
+  "class_distribution": {
+    "counts": {
+      "class_0": 59,
+      "class_1": 71,
+      "class_2": 48
+    },
+    "raw_counts": {
+      "0": 59,
+      "1": 71,
+      "2": 48
+    },
+    "percentages": {
+      "class_0": 33.15,
+      "class_1": 39.89,
+      "class_2": 26.97
+    },
+    "imbalance_ratio": 1.479,
+    "majority_class": "class_1",
+    "minority_class": "class_2",
+    "total_samples": 178
+  },
+  "missing_values": {
+    "per_column_counts": {
+      "alcohol": 0,
+      "malic_acid": 0,
+      "ash": 0,
+      "alcalinity_of_ash": 0,
+      "magnesium": 0,
+      "total_phenols": 0,
+      "flavanoids": 0,
+      "nonflavanoid_phenols": 0,
+      "proanthocyanins": 0,
+      "color_intensity": 0,
+      "hue": 0,
+      "od280/od315_of_diluted_wines": 0,
+      "proline": 0
+    },
+    "per_column_percentages": {
+      "alcohol": 0.0,
+      "malic_acid": 0.0,
+      "ash": 0.0,
+      "alcalinity_of_ash": 0.0,
+      "magnesium": 0.0,
+      "total_phenols": 0.0,
+      "flavanoids": 0.0,
+      "nonflavanoid_phenols": 0.0,
+      "proanthocyanins": 0.0,
+      "color_intensity": 0.0,
+      "hue": 0.0,
+      "od280/od315_of_diluted_wines": 0.0,
+      "proline": 0.0
+    },
+    "total_missing": 0,
+    "columns_with_missing": []
+  },
+  "duplicates": {
+    "total_duplicate_rows": 0,
+    "unique_rows": 178,
+    "has_duplicate_features": false,
+    "duplicate_feature_groups": []
+  },
+  "constants": {
+    "zero_variance_features": [],
+    "low_variance_features": []
+  },
+  "descriptive_statistics": {
+    "features": {
+      "alcohol": {
+        "count": 178,
+        "mean": 13.00062,
+        "std": 0.81183,
+        "min": 11.03,
+        "q25": 12.3625,
+        "median": 13.05,
+        "q75": 13.6775,
+        "max": 14.83,
+        "variance": 0.65906,
+        "range": 3.8
+      },
+      "malic_acid": {
+        "count": 178,
+        "mean": 2.33635,
+        "std": 1.11715,
+        "min": 0.74,
+        "q25": 1.6025,
+        "median": 1.865,
+        "q75": 3.0825,
+        "max": 5.8,
+        "variance": 1.24802,
+        "range": 5.06
+      },
+      "ash": {
+        "count": 178,
+        "mean": 2.36652,
+        "std": 0.27434,
+        "min": 1.36,
+        "q25": 2.21,
+        "median": 2.36,
+        "q75": 2.5575,
+        "max": 3.23,
+        "variance": 0.07526,
+        "range": 1.87
+      },
+      "alcalinity_of_ash": {
+        "count": 178,
+        "mean": 19.49494,
+        "std": 3.33956,
+        "min": 10.6,
+        "q25": 17.2,
+        "median": 19.5,
+        "q75": 21.5,
+        "max": 30.0,
+        "variance": 11.15269,
+        "range": 19.4
+      },
+      "magnesium": {
+        "count": 178,
+        "mean": 99.74157,
+        "std": 14.28248,
+        "min": 70.0,
+        "q25": 88.0,
+        "median": 98.0,
+        "q75": 107.0,
+        "max": 162.0,
+        "variance": 203.98934,
+        "range": 92.0
+      },
+      "total_phenols": {
+        "count": 178,
+        "mean": 2.29511,
+        "std": 0.62585,
+        "min": 0.98,
+        "q25": 1.7425,
+        "median": 2.355,
+        "q75": 2.8,
+        "max": 3.88,
+        "variance": 0.39169,
+        "range": 2.9
+      },
+      "flavanoids": {
+        "count": 178,
+        "mean": 2.02927,
+        "std": 0.99886,
+        "min": 0.34,
+        "q25": 1.205,
+        "median": 2.135,
+        "q75": 2.875,
+        "max": 5.08,
+        "variance": 0.99772,
+        "range": 4.74
+      },
+      "nonflavanoid_phenols": {
+        "count": 178,
+        "mean": 0.36185,
+        "std": 0.12445,
+        "min": 0.13,
+        "q25": 0.27,
+        "median": 0.34,
+        "q75": 0.4375,
+        "max": 0.66,
+        "variance": 0.01549,
+        "range": 0.53
+      },
+      "proanthocyanins": {
+        "count": 178,
+        "mean": 1.5909,
+        "std": 0.57236,
+        "min": 0.41,
+        "q25": 1.25,
+        "median": 1.555,
+        "q75": 1.95,
+        "max": 3.58,
+        "variance": 0.32759,
+        "range": 3.17
+      },
+      "color_intensity": {
+        "count": 178,
+        "mean": 5.05809,
+        "std": 2.31829,
+        "min": 1.28,
+        "q25": 3.22,
+        "median": 4.69,
+        "q75": 6.2,
+        "max": 13.0,
+        "variance": 5.37445,
+        "range": 11.72
+      },
+      "hue": {
+        "count": 178,
+        "mean": 0.95745,
+        "std": 0.22857,
+        "min": 0.48,
+        "q25": 0.7825,
+        "median": 0.965,
+        "q75": 1.12,
+        "max": 1.71,
+        "variance": 0.05224,
+        "range": 1.23
+      },
+      "od280/od315_of_diluted_wines": {
+        "count": 178,
+        "mean": 2.61169,
+        "std": 0.70999,
+        "min": 1.27,
+        "q25": 1.9375,
+        "median": 2.78,
+        "q75": 3.17,
+        "max": 4.0,
+        "variance": 0.50409,
+        "range": 2.73
+      },
+      "proline": {
+        "count": 178,
+        "mean": 746.89326,
+        "std": 314.90747,
+        "min": 278.0,
+        "q25": 500.5,
+        "median": 673.5,
+        "q75": 985.0,
+        "max": 1680.0,
+        "variance": 99166.71736,
+        "range": 1402.0
+      }
+    },
+    "largest_variability_features": [
+      {
+        "feature": "proline",
+        "variance": 99166.71736,
+        "std": 314.90747
+      },
+      {
+        "feature": "magnesium",
+        "variance": 203.98934,
+        "std": 14.28248
+      },
+      {
+        "feature": "alcalinity_of_ash",
+        "variance": 11.15269,
+        "std": 3.33956
+      },
+      {
+        "feature": "color_intensity",
+        "variance": 5.37445,
+        "std": 2.31829
+      },
+      {
+        "feature": "malic_acid",
+        "variance": 1.24802,
+        "std": 1.11715
+      }
+    ],
+    "smallest_variability_features": [
+      {
+        "feature": "nonflavanoid_phenols",
+        "variance": 0.01548863,
+        "std": 0.12445334
+      },
+      {
+        "feature": "hue",
+        "variance": 0.05224496,
+        "std": 0.22857157
+      },
+      {
+        "feature": "ash",
+        "variance": 0.07526464,
+        "std": 0.27434401
+      },
+      {
+        "feature": "proanthocyanins",
+        "variance": 0.32759467,
+        "std": 0.57235886
+      },
+      {
+        "feature": "total_phenols",
+        "variance": 0.39168954,
+        "std": 0.62585105
+      }
+    ]
+  },
+  "correlation": {
+    "highly_correlated_pairs": [],
+    "highest_avg_abs_correlations": [
+      {
+        "feature": "flavanoids",
+        "mean_abs_correlation": 0.4469
+      },
+      {
+        "feature": "total_phenols",
+        "mean_abs_correlation": 0.4085
+      },
+      {
+        "feature": "od280/od315_of_diluted_wines",
+        "mean_abs_correlation": 0.3837
+      },
+      {
+        "feature": "proline",
+        "mean_abs_correlation": 0.366
+      },
+      {
+        "feature": "hue",
+        "mean_abs_correlation": 0.3247
+      }
+    ],
+    "strongest_positive_correlations": [
+      {
+        "feature_1": "total_phenols",
+        "feature_2": "flavanoids",
+        "pearson_correlation": 0.8646
+      },
+      {
+        "feature_1": "flavanoids",
+        "feature_2": "od280/od315_of_diluted_wines",
+        "pearson_correlation": 0.7872
+      },
+      {
+        "feature_1": "total_phenols",
+        "feature_2": "od280/od315_of_diluted_wines",
+        "pearson_correlation": 0.6999
+      },
+      {
+        "feature_1": "flavanoids",
+        "feature_2": "proanthocyanins",
+        "pearson_correlation": 0.6527
+      },
+      {
+        "feature_1": "alcohol",
+        "feature_2": "proline",
+        "pearson_correlation": 0.6437
+      }
+    ],
+    "strongest_negative_correlations": [
+      {
+        "feature_1": "malic_acid",
+        "feature_2": "hue",
+        "pearson_correlation": -0.5613
+      },
+      {
+        "feature_1": "flavanoids",
+        "feature_2": "nonflavanoid_phenols",
+        "pearson_correlation": -0.5379
+      },
+      {
+        "feature_1": "color_intensity",
+        "feature_2": "hue",
+        "pearson_correlation": -0.5218
+      },
+      {
+        "feature_1": "nonflavanoid_phenols",
+        "feature_2": "od280/od315_of_diluted_wines",
+        "pearson_correlation": -0.5033
+      },
+      {
+        "feature_1": "total_phenols",
+        "feature_2": "nonflavanoid_phenols",
+        "pearson_correlation": -0.4499
+      }
+    ]
+  },
+  "timestamp_utc": "2026-11-19T06:23:26.238431+00:00",
+  "library_versions": {
+    "python": "3.13.1",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "scikit_learn": "1.9.1",
+    "matplotlib": "3.11.2"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qml-benchmark-studio.org/schemas/experiment_state.schema.json",
+  "title": "ExperimentState",
+  "description": "Lifecycle state and progress tracking schema for QML Benchmark Studio experiments.",
+  "type": "object",
+  "required": [
+    "experiment_id",
+    "current_state",
+    "transition_timestamp",
+    "progress_percentage",
+    "models_total",
+    "models_completed"
+  ],
+  "properties": {
+    "experiment_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique experiment execution identifier."
+    },
+    "current_state": {
+      "type": "string",
+      "enum": [
+        "CREATED",
+        "VALIDATING",
+        "QUEUED",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED"
+      ],
+      "description": "Current lifecycle status in state machine."
+    },
+    "previous_state": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "CREATED",
+        "VALIDATING",
+        "QUEUED",
+        "RUNNING",
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED"
+      ]
+    },
+    "transition_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of last state transition."
+    },
+    "progress_percentage": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 100.0,
+      "description": "Calculated execution progress across all scheduled model runs."
+    },
+    "current_stage": {
+      "type": ["string", "null"],
+      "description": "Active processing phase (e.g., 'loading_dataset', 'feature_selection', 'training_vqc', 'evaluating_metrics')."
+    },
+    "current_seed": {
+      "type": ["integer", "null"],
+      "description": "Random seed currently being executed."
+    },
+    "current_model": {
+      "type": ["string", "null"],
+      "description": "Identifier of the model currently undergoing training/evaluation."
+    },
+    "models_total": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total model evaluation tasks scheduled (models * seeds)."
+    },
+    "models_completed": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Count of successfully evaluated model-seed runs."
+    },
+    "message": {
+      "type": ["string", "null"],
+      "description": "Human-readable status summary or progress banner."
+    },
+    "error_details": {
+      "type": ["object", "null"],
+      "default": null,
+      "properties": {
+        "error_type": { "type": "string" },
+        "error_message": { "type": "string" },
+        "stage": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

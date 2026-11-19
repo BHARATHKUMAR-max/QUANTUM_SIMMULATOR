@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qml-benchmark-studio.org/schemas/experiment_config.schema.json",
+  "title": "ExperimentConfig",
+  "description": "Validation schema for QML Benchmark Studio experiment configurations.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "experiment_name",
+    "dataset",
+    "splitting",
+    "preprocessing",
+    "feature_selection",
+    "comparison_mode",
+    "models",
+    "evaluation"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Semantic version of the configuration schema."
+    },
+    "experiment_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Optional client-supplied or system-generated UUID for the experiment."
+    },
+    "experiment_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Human-readable label for the experiment."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1024,
+      "default": "",
+      "description": "Optional research notes and context."
+    },
+    "dataset": {
+      "type": "object",
+      "required": ["source_type"],
+      "properties": {
+        "source_type": {
+          "type": "string",
+          "enum": ["builtin", "upload"],
+          "description": "Origin of dataset: built-in benchmark dataset or user-uploaded CSV."
+        },
+        "dataset_name": {
+          "type": "string",
+          "enum": ["breast_cancer", "wine", "custom"],
+          "description": "Identifier for the dataset. Custom is used for uploads."
+        },
+        "file_path": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Path to uploaded CSV file on local storage."
+        },
+        "target_column": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Name of the target column (required for uploaded CSVs)."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "source_type": { "const": "builtin" } }
+          },
+          "then": {
+            "properties": {
+              "dataset_name": { "enum": ["breast_cancer", "wine"] }
+            },
+            "required": ["dataset_name"]
+          }
+        },
+        {
+          "if": {
+            "properties": { "source_type": { "const": "upload" } }
+          },
+          "then": {
+            "required": ["file_path", "target_column"]
+          }
+        }
+      ]
+    },
+    "splitting": {
+      "type": "object",
+      "required": ["test_size", "stratified", "random_seed"],
+      "properties": {
+        "test_size": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 0.5,
+          "default": 0.2,
+          "description": "Fraction of samples allocated to test partition (default 0.2 for 80/20 split)."
+        },
+        "stratified": {
+          "type": "boolean",
+          "default": true,
+          "description": "Preserve class representation across partitions."
+        },
+        "random_seed": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 42,
+          "description": "Base seed for data partitioning."
+        }
+      }
+    },
+    "preprocessing": {
+      "type": "object",
+      "required": ["scaling", "imputation"],
+      "properties": {
+        "scaling": {
+          "type": "string",
+          "enum": ["standard", "none"],
+          "default": "standard",
+          "description": "Feature scaling transformer fitted on training set only."
+        },
+        "imputation": {
+          "type": "string",
+          "enum": ["mean", "median", "most_frequent", "none"],
+          "default": "mean",
+          "description": "Missing-value imputation strategy fitted on training set only."
+        }
+      }
+    },
+    "feature_selection": {
+      "type": "object",
+      "required": ["method"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["none", "mutual_info", "anova_f", "correlation", "pca"],
+          "default": "none",
+          "description": "Dimensionality reduction or feature selection algorithm fitted on training set."
+        },
+        "k_features": {
+          "type": ["integer", "null"],
+          "minimum": 2,
+          "maximum": 30,
+          "default": null,
+          "description": "Target number of features for MI, ANOVA, or PCA."
+        },
+        "correlation_threshold": {
+          "type": ["number", "null"],
+          "minimum": 0.5,
+          "maximum": 0.99,
+          "default": 0.95,
+          "description": "Maximum allowed Pearson correlation before dropping redundant feature."
+        }
+      }
+    },
+    "comparison_mode": {
+      "type": "string",
+      "enum": ["original", "matched_reduced", "quantum_limited"],
+      "default": "matched_reduced",
+      "description": "Fair comparison protocol mode. matched_reduced ensures classical and quantum models receive identical reduced feature inputs."
+    },
+    "models": {
+      "type": "object",
+      "required": ["classical", "quantum"],
+      "properties": {
+        "classical": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["model_id", "enabled"],
+            "properties": {
+              "model_id": {
+                "type": "string",
+                "enum": ["dummy", "svm", "mlp", "random_forest"]
+              },
+              "enabled": { "type": "boolean" },
+              "hyperparameters": {
+                "type": "object",
+                "default": {}
+              }
+            }
+          }
+        },
+        "quantum": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["model_id", "enabled"],
+            "properties": {
+              "model_id": {
+                "type": "string",
+                "enum": ["vqc", "qksvm"]
+              },
+              "enabled": { "type": "boolean" },
+              "n_qubits": {
+                "type": "integer",
+                "minimum": 2,
+                "maximum": 10,
+                "default": 4,
+                "description": "Number of simulated qubits (strictly bounded 2-10)."
+              },
+              "circuit_depth": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4,
+                "default": 2,
+                "description": "Repetition layers of variational ansatz (strictly bounded 1-4)."
+              },
+              "encoding": {
+                "type": "string",
+                "enum": ["angle", "zz"],
+                "default": "angle",
+                "description": "Quantum feature embedding strategy."
+              },
+              "entanglement": {
+                "type": "string",
+                "enum": ["linear", "circular"],
+                "default": "linear",
+                "description": "CNOT topology across adjacent qubits."
+              },
+              "optimizer": {
+                "type": "string",
+                "enum": ["adam", "cobyla"],
+                "default": "adam",
+                "description": "Classical optimization routine for VQC."
+              },
+              "learning_rate": {
+                "type": "number",
+                "minimum": 0.0001,
+                "maximum": 1.0,
+                "default": 0.01
+              },
+              "epochs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 200,
+                "default": 50
+              },
+              "batch_size": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 128,
+                "default": 16
+              },
+              "regularization_c": {
+                "type": "number",
+                "minimum": 0.01,
+                "maximum": 100.0,
+                "default": 1.0,
+                "description": "Regularization parameter C for QKSVM."
+              },
+              "max_training_samples": {
+                "type": "integer",
+                "minimum": 10,
+                "maximum": 500,
+                "default": 200,
+                "description": "Maximum training samples cap for QKSVM Gram matrix construction (default 200)."
+              },
+              "cache_kernel_matrix": {
+                "type": "boolean",
+                "default": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "required": ["random_seeds", "cross_validation"],
+      "properties": {
+        "random_seeds": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "minItems": 1,
+          "maxItems": 30,
+          "default": [42, 101, 202, 303, 404],
+          "description": "Array of pseudo-random seeds for repeated benchmark runs."
+        },
+        "cross_validation": {
+          "type": "object",
+          "required": ["enabled", "n_splits"],
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "n_splits": { "type": "integer", "minimum": 2, "maximum": 10, "default": 3 }
+          }
+        }
+      }
+    },
+    "trainability": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Toggle mandatory research gradient and barren plateau sweep."
+        },
+        "qubit_counts": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 10
+          },
+          "default": [2, 4, 6, 8, 10]
+        },
+        "circuit_depths": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "default": [1, 2, 3, 4]
+        },
+        "entanglements": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["linear", "circular"] },
+          "default": ["linear", "circular"]
+        },
+        "n_initializations": {
+          "type": "integer",
+          "enum": [10, 20, 30],
+          "default": 10,
+          "description": "Number of random parameter initializations per configuration."
+        }
+      }
+    }
+  }
+}

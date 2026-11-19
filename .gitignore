@@ -1,0 +1,77 @@
+# =============================================================================
+# QML Benchmark Studio — .gitignore
+# Python + React/TypeScript project
+# =============================================================================
+
+# ----- Python virtual environment -----
+.venv/
+venv/
+env/
+ENV/
+
+# ----- Python bytecode & caches -----
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# ----- Testing & coverage -----
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+
+# ----- Distribution / packaging -----
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# ----- Environment variable files -----
+.env
+.env.*
+!.env.example
+
+# ----- Jupyter Notebooks checkpoints -----
+.ipynb_checkpoints/
+
+# ----- Local experiment outputs & logs -----
+reports/*.csv
+reports/*.json
+reports/*.png
+reports/*.html
+*.log
+logs/
+
+# ----- Node / Frontend -----
+node_modules/
+frontend/dist/
+frontend/build/
+.next/
+.nuxt/
+
+# ----- OS-specific -----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ----- IDE & editor -----
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ----- MyPy -----
+.mypy_cache/
+.dmypy.json
+
+# ----- Ruff / linters -----
+.ruff_cache/
+
+# ----- Temporary files -----
+*.tmp
+*.bak
+*.orig
