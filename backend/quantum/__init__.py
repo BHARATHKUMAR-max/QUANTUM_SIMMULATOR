@@ -67,6 +67,12 @@ from backend.quantum.vqc import (
     get_vqc_expectations,
     save_circuit_visualization,
 )
+from backend.quantum.vqc_classifier import (
+    VQCClassifier,
+    VQCClassifierConfig,
+    expectation_to_binary_proba,
+    softmax,
+)
 
 __all__ = [
     # Devices
@@ -99,6 +105,11 @@ __all__ = [
     "DEFAULT_ENTANGLEMENT",
     "SUPPORTED_ROTATION_SEQUENCES",
     "DEFAULT_ROTATION_GATES",
+    # VQC Classifier Interface
+    "VQCClassifier",
+    "VQCClassifierConfig",
+    "expectation_to_binary_proba",
+    "softmax",
     "DEFAULT_ROTATION",
     "DEFAULT_ANGLE_RANGE",
     "VALID_ROTATIONS",

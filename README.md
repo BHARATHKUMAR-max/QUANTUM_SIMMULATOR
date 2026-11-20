@@ -81,7 +81,7 @@ QUANTUM_SIMMULATOR/
 │       ├── experiment_config.schema.json
 │       ├── experiment_result.schema.json
 │       └── experiment_state.schema.json
-├── tests/                  # Pytest test suite (822 automated tests)
+├── tests/                  # Pytest test suite (843 automated tests)
 ├── reports/                # Generated dataset profiles, tables, and figures
 │   └── dataset_profiles/
 │       ├── breast_cancer/
@@ -117,6 +117,7 @@ Detailed project planning, technical architecture, and acceptance criteria are m
 - [Quantum Simulator Setup](docs/QUANTUM_SIMULATOR_SETUP.md) — PennyLane quantum development environment, simulator backends (default.qubit & lightning.qubit), parameterized circuits, autodiff gradients, determinism, and classical simulation bounds.
 - [Quantum Angle Encoding](docs/QUANTUM_ANGLE_ENCODING.md) — Reusable feature-to-qubit angle encoding module, linear scaling to [-π, π], strict training-only fitting, out-of-range clipping, and 1-to-1 sequential wire mapping.
 - [Parameterized VQC Circuit](docs/QUANTUM_VQC_CIRCUIT.md) — Reusable parameterized Variational Quantum Circuit, trainable rotation sequences (RX, RY, RZ), linear and circular CNOT entanglement, multi-qubit Pauli-Z expectations, autodiff gradients, and circuit visualizations.
+- [VQC Classification Interface](docs/QUANTUM_VQC_CLASSIFICATION.md) — Binary and multiclass VQC prediction interface, single-wire expectation probability mapping, multiclass linear head + softmax, label preservation, and evaluation framework integration.
 - [JSON Schemas](docs/schemas/) — Formal Draft 2020-12 validation schemas for configuration, results, and execution state.
 - [MVP Scope](docs/MVP_SCOPE.md) — Formal specifications for datasets, models, trainability analysis, fair comparison modes, and documented research limitations.
 - [Development Backlog](docs/DEVELOPMENT_BACKLOG.md) — Actionable 12-epic development task backlog prioritized across the 8-week schedule.
