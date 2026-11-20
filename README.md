@@ -81,7 +81,7 @@ QUANTUM_SIMMULATOR/
 │       ├── experiment_config.schema.json
 │       ├── experiment_result.schema.json
 │       └── experiment_state.schema.json
-├── tests/                  # Pytest test suite (372 automated tests)
+├── tests/                  # Pytest test suite (822 automated tests)
 ├── reports/                # Generated dataset profiles, tables, and figures
 │   └── dataset_profiles/
 │       ├── breast_cancer/
@@ -110,6 +110,13 @@ Detailed project planning, technical architecture, and acceptance criteria are m
 - [Classical Support Vector Classification](docs/CLASSICAL_SVM.md) — Configurable Linear and RBF SVM models, decision functions, Platt scaling probability overhead, and CPU hardware execution.
 - [Classical Multi-Layer Perceptron](docs/CLASSICAL_MLP.md) — Feed-forward neural network classifier, configurable hidden layers, activation functions, convergence diagnostics, and CPU execution.
 - [Classical Random Forest Classifier](docs/CLASSICAL_RANDOM_FOREST.md) — Bagged decision tree ensemble classifier, configurable tree depth/estimators, Gini impurity feature importances, and multi-core CPU execution.
+- [Model Configuration & Recommendations](docs/MODEL_CONFIGURATION_AND_RECOMMENDATIONS.md) — Typed model configuration schemas, validation rules, model registry, and transparent rule-based recommendation engine.
+- [Cross-Validation & Hyperparameter Tuning](docs/CROSS_VALIDATION_AND_TUNING.md) — Strictly leakage-safe stratified k-fold cross-validation, custom deterministic grid search, fold-local preprocessing, and held-out test evaluation.
+- [Repeated Runs & Statistical Aggregation](docs/REPEATED_RUNS_AND_AGGREGATION.md) — Five-run reproducible protocol (seeds 42, 101, 202, 303, 404), fair multi-model shared partitions, sample standard deviation (ddof=1), and honest reporting.
+- [Classical Benchmark Report](reports/classical_benchmark/CLASSICAL_BENCHMARK_REPORT.md) — Comprehensive empirical reference baselines on Breast Cancer and Wine datasets, 5-run stability tables, confusion matrices, runtime, and MLP convergence analysis.
+- [Quantum Simulator Setup](docs/QUANTUM_SIMULATOR_SETUP.md) — PennyLane quantum development environment, simulator backends (default.qubit & lightning.qubit), parameterized circuits, autodiff gradients, determinism, and classical simulation bounds.
+- [Quantum Angle Encoding](docs/QUANTUM_ANGLE_ENCODING.md) — Reusable feature-to-qubit angle encoding module, linear scaling to [-π, π], strict training-only fitting, out-of-range clipping, and 1-to-1 sequential wire mapping.
+- [Parameterized VQC Circuit](docs/QUANTUM_VQC_CIRCUIT.md) — Reusable parameterized Variational Quantum Circuit, trainable rotation sequences (RX, RY, RZ), linear and circular CNOT entanglement, multi-qubit Pauli-Z expectations, autodiff gradients, and circuit visualizations.
 - [JSON Schemas](docs/schemas/) — Formal Draft 2020-12 validation schemas for configuration, results, and execution state.
 - [MVP Scope](docs/MVP_SCOPE.md) — Formal specifications for datasets, models, trainability analysis, fair comparison modes, and documented research limitations.
 - [Development Backlog](docs/DEVELOPMENT_BACKLOG.md) — Actionable 12-epic development task backlog prioritized across the 8-week schedule.

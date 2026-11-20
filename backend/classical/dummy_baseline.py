@@ -40,6 +40,7 @@ class DummyBaseline:
         self,
         strategy: str = "most_frequent",
         random_state: Optional[int] = None,
+        constant: Optional[Union[int, str]] = None,
     ) -> None:
         """
         Initialize the Dummy baseline classifier.
@@ -47,9 +48,11 @@ class DummyBaseline:
         Args:
             strategy: Prediction strategy. Defaults to 'most_frequent'.
             random_state: Optional random seed for reproducibility.
+            constant: Constant target value when strategy='constant'. Defaults to None.
         """
         self.strategy = strategy
         self.random_state = random_state
+        self.constant = constant
         self._clf: Optional[DummyClassifier] = None
         self._is_fitted: bool = False
         self._n_features_in: Optional[int] = None
@@ -167,6 +170,7 @@ class DummyBaseline:
         self._clf = DummyClassifier(
             strategy=self.strategy,
             random_state=self.random_state,
+            constant=self.constant,
         )
 
         # Fit on training data
