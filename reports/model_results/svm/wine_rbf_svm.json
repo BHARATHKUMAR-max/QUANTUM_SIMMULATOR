@@ -1,0 +1,131 @@
+{
+  "experiment_title": "Wine Multiclass RBF SVM Baseline",
+  "dataset_name": "wine",
+  "split_seed": 42,
+  "test_size": 0.2,
+  "model_config": {
+    "model_name": "svm",
+    "model_family": "classical",
+    "kernel": "rbf",
+    "C": 1.0,
+    "gamma": "scale",
+    "probability": true,
+    "random_state": 42,
+    "class_weight": null,
+    "execution_device": "CPU",
+    "is_fitted": true,
+    "training_time_seconds": 0.00515,
+    "inference_time_seconds": 0.000601,
+    "classes": [
+      0,
+      1,
+      2
+    ],
+    "n_features_in": 13,
+    "n_samples_in": 142,
+    "feature_names_in": [
+      "num__alcohol",
+      "num__malic_acid",
+      "num__ash",
+      "num__alcalinity_of_ash",
+      "num__magnesium",
+      "num__total_phenols",
+      "num__flavanoids",
+      "num__nonflavanoid_phenols",
+      "num__proanthocyanins",
+      "num__color_intensity",
+      "num__hue",
+      "num__od280/od315_of_diluted_wines",
+      "num__proline"
+    ],
+    "support_vectors_count": 61
+  },
+  "evaluation_metrics": {
+    "accuracy": 0.972222,
+    "precision": {
+      "macro": 0.977778,
+      "weighted": 0.974074,
+      "positive": null,
+      "per_class": {
+        "0": 1.0,
+        "1": 0.933333,
+        "2": 1.0
+      }
+    },
+    "recall": {
+      "macro": 0.966667,
+      "weighted": 0.972222,
+      "positive": null,
+      "per_class": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 0.9
+      }
+    },
+    "f1_macro": 0.970962,
+    "f1_weighted": 0.97197,
+    "f1": {
+      "macro": 0.970962,
+      "weighted": 0.97197,
+      "positive": null,
+      "per_class": {
+        "0": 1.0,
+        "1": 0.965517,
+        "2": 0.947368
+      }
+    },
+    "balanced_accuracy": 0.966667,
+    "roc_auc": {
+      "value": 1.0,
+      "ovr_macro": 1.0,
+      "ovr_weighted": 1.0,
+      "per_class": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        12,
+        0,
+        0
+      ],
+      [
+        0,
+        14,
+        0
+      ],
+      [
+        0,
+        1,
+        9
+      ]
+    ],
+    "class_labels": [
+      0,
+      1,
+      2
+    ],
+    "sample_count": 36,
+    "task_type": "multiclass",
+    "positive_label": null,
+    "warnings": [],
+    "metadata": {
+      "zero_division_policy": 0.0,
+      "probabilities_provided": true,
+      "decision_scores_provided": false,
+      "score_type": "probabilities",
+      "labels_source": "explicit"
+    }
+  },
+  "experiment_schema_metrics": {
+    "accuracy": 0.972222,
+    "precision_macro": 0.977778,
+    "recall_macro": 0.966667,
+    "f1_macro": 0.970962,
+    "f1_weighted": 0.97197,
+    "balanced_accuracy": 0.966667,
+    "roc_auc": 1.0
+  }
+}

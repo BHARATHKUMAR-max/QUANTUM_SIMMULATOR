@@ -1,0 +1,134 @@
+{
+  "experiment_title": "Breast Cancer RBF SVM Baseline",
+  "dataset_name": "breast_cancer",
+  "split_seed": 42,
+  "test_size": 0.2,
+  "model_config": {
+    "model_name": "svm",
+    "model_family": "classical",
+    "kernel": "rbf",
+    "C": 1.0,
+    "gamma": "scale",
+    "probability": true,
+    "random_state": 42,
+    "class_weight": null,
+    "execution_device": "CPU",
+    "is_fitted": true,
+    "training_time_seconds": 0.016523,
+    "inference_time_seconds": 0.001745,
+    "classes": [
+      0,
+      1
+    ],
+    "n_features_in": 30,
+    "n_samples_in": 455,
+    "feature_names_in": [
+      "num__mean radius",
+      "num__mean texture",
+      "num__mean perimeter",
+      "num__mean area",
+      "num__mean smoothness",
+      "num__mean compactness",
+      "num__mean concavity",
+      "num__mean concave points",
+      "num__mean symmetry",
+      "num__mean fractal dimension",
+      "num__radius error",
+      "num__texture error",
+      "num__perimeter error",
+      "num__area error",
+      "num__smoothness error",
+      "num__compactness error",
+      "num__concavity error",
+      "num__concave points error",
+      "num__symmetry error",
+      "num__fractal dimension error",
+      "num__worst radius",
+      "num__worst texture",
+      "num__worst perimeter",
+      "num__worst area",
+      "num__worst smoothness",
+      "num__worst compactness",
+      "num__worst concavity",
+      "num__worst concave points",
+      "num__worst symmetry",
+      "num__worst fractal dimension"
+    ],
+    "support_vectors_count": 97
+  },
+  "evaluation_metrics": {
+    "accuracy": 0.982456,
+    "precision": {
+      "macro": 0.981151,
+      "weighted": 0.982456,
+      "positive": 0.986111,
+      "per_class": {
+        "0": 0.97619,
+        "1": 0.986111
+      }
+    },
+    "recall": {
+      "macro": 0.981151,
+      "weighted": 0.982456,
+      "positive": 0.986111,
+      "per_class": {
+        "0": 0.97619,
+        "1": 0.986111
+      }
+    },
+    "f1_macro": 0.981151,
+    "f1_weighted": 0.982456,
+    "f1": {
+      "macro": 0.981151,
+      "weighted": 0.982456,
+      "positive": 0.986111,
+      "per_class": {
+        "0": 0.97619,
+        "1": 0.986111
+      }
+    },
+    "balanced_accuracy": 0.981151,
+    "roc_auc": {
+      "value": 0.99504,
+      "ovr_macro": 0.99504,
+      "ovr_weighted": 0.99504,
+      "per_class": {
+        "1": 0.99504
+      }
+    },
+    "confusion_matrix": [
+      [
+        41,
+        1
+      ],
+      [
+        1,
+        71
+      ]
+    ],
+    "class_labels": [
+      0,
+      1
+    ],
+    "sample_count": 114,
+    "task_type": "binary",
+    "positive_label": 1,
+    "warnings": [],
+    "metadata": {
+      "zero_division_policy": 0.0,
+      "probabilities_provided": true,
+      "decision_scores_provided": false,
+      "score_type": "probabilities",
+      "labels_source": "explicit"
+    }
+  },
+  "experiment_schema_metrics": {
+    "accuracy": 0.982456,
+    "precision_macro": 0.981151,
+    "recall_macro": 0.981151,
+    "f1_macro": 0.981151,
+    "f1_weighted": 0.982456,
+    "balanced_accuracy": 0.981151,
+    "roc_auc": 0.99504
+  }
+}

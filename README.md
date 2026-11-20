@@ -56,11 +56,13 @@ QUANTUM_SIMMULATOR/
 ├── backend/                # Python backend
 │   ├── api/
 │   │   └── routes/         # FastAPI route handlers
-│   ├── data/               # Ingestion, schemas, validation, and profiling
+│   ├── data/               # Ingestion, schemas, validation, splitting, and preprocessing
 │   │   ├── csv_validator.py
 │   │   ├── dataset_loader.py
 │   │   ├── dataset_profiler.py
-│   │   └── schemas.py
+│   │   ├── preprocessing.py
+│   │   ├── schemas.py
+│   │   └── splitting.py
 │   ├── classical/          # Classical ML model implementations
 │   ├── quantum/            # PennyLane quantum circuit implementations
 │   ├── training/           # Training loop orchestration
@@ -79,7 +81,7 @@ QUANTUM_SIMMULATOR/
 │       ├── experiment_config.schema.json
 │       ├── experiment_result.schema.json
 │       └── experiment_state.schema.json
-├── tests/                  # Pytest test suite (58 automated tests)
+├── tests/                  # Pytest test suite (372 automated tests)
 ├── reports/                # Generated dataset profiles, tables, and figures
 │   └── dataset_profiles/
 │       ├── breast_cancer/
@@ -99,6 +101,15 @@ Detailed project planning, technical architecture, and acceptance criteria are m
 - [Architecture Specification](docs/ARCHITECTURE.md) — 8-layer architecture, module responsibilities, SQLite schema, and engineering rules.
 - [Data Flow Specification](docs/DATA_FLOW.md) — 11-step experiment lifecycle, state machine, model dispatching, and reproducibility.
 - [CSV Validation Rules](docs/CSV_VALIDATION_RULES.md) — Specification for CSV file health checks, target selection, error catalogue, and response schema.
+- [Data Splitting & Preprocessing](docs/DATA_SPLITTING_AND_PREPROCESSING.md) — Leakage-safe partitioning, ColumnTransformer pipelines, CV fold isolation, and usage patterns.
+- [Feature Selection Specification](docs/FEATURE_SELECTION.md) — Supervised feature selection with Mutual Information and ANOVA F-value ranking.
+- [Correlation Filtering & PCA](docs/CORRELATION_AND_PCA.md) — Unsupervised Pearson collinearity filtering and PCA dimensional reduction.
+- [Comparison Modes Specification](docs/COMPARISON_MODES.md) — Three comparison modes (Mode A: Matched, Mode B: Quantum-Limited, Mode C: Best Practical) and qubit constraints.
+- [Data Pipeline Integration Guide](docs/DATA_PIPELINE_INTEGRATION.md) — Unified 8-stage data pipeline invariants, leakage audits, and end-to-end integration tests.
+- [Classical Baseline & Common Evaluation Metrics](docs/CLASSICAL_BASELINE_AND_METRICS.md) — Model-agnostic evaluation engine, `DummyBaseline` implementation, confusion matrix preservation, and One-vs-Rest ROC-AUC conventions.
+- [Classical Support Vector Classification](docs/CLASSICAL_SVM.md) — Configurable Linear and RBF SVM models, decision functions, Platt scaling probability overhead, and CPU hardware execution.
+- [Classical Multi-Layer Perceptron](docs/CLASSICAL_MLP.md) — Feed-forward neural network classifier, configurable hidden layers, activation functions, convergence diagnostics, and CPU execution.
+- [Classical Random Forest Classifier](docs/CLASSICAL_RANDOM_FOREST.md) — Bagged decision tree ensemble classifier, configurable tree depth/estimators, Gini impurity feature importances, and multi-core CPU execution.
 - [JSON Schemas](docs/schemas/) — Formal Draft 2020-12 validation schemas for configuration, results, and execution state.
 - [MVP Scope](docs/MVP_SCOPE.md) — Formal specifications for datasets, models, trainability analysis, fair comparison modes, and documented research limitations.
 - [Development Backlog](docs/DEVELOPMENT_BACKLOG.md) — Actionable 12-epic development task backlog prioritized across the 8-week schedule.
@@ -253,6 +264,162 @@ artifacts = export_profile(
 for filename, filepath in artifacts.items():
     print(f"Generated: {filename} -> {filepath}")
 ```
+
+#### 5. Leakage-Safe Splitting & Preprocessing (Day 7 & 8)
+
+Perform reproducible stratified train/test partitioning and feature transformation with strict training-only estimator fitting. All preprocessing strategies are configurable via `PreprocessingConfig`:
+
+```python
+from backend.data import (
+    load_dataset,
+    prepare_split_and_preprocessed_data,
+    create_stratified_cv_splits,
+    prepare_cv_fold_data,
+)
+from backend.data.schemas import PreprocessingConfig
+
+# 1. Load dataset
+bundle = load_dataset("breast_cancer")
+
+# 2. Configure preprocessing strategies (all options below are the defaults)
+cfg = PreprocessingConfig(
+    numerical_imputation="median",   # or "mean"
+    numerical_scaling="standard",    # or "minmax", "none"
+    categorical_encoding="onehot",   # or "ordinal"
+    preserve_empty_features=True,    # keep all-NaN training columns in output
+)
+
+# 3. Split and preprocess in a single leakage-safe step
+result = prepare_split_and_preprocessed_data(
+    dataset_bundle=bundle,
+    test_size=0.2,
+    random_state=42,
+    stratify=True,
+    preprocessor_config=cfg,
+)
+
+print("X_train shape:", result.X_train_processed.shape)  # (455, 30)
+print("X_test shape:", result.X_test_processed.shape)    # (114, 30)
+
+# 4. Stratified cross-validation inside training set only
+folds = create_stratified_cv_splits(result.split.X_train, result.split.y_train, n_splits=3)
+for fold in folds:
+    fold_prep, x_tr_proc, x_val_proc, y_tr, y_val = prepare_cv_fold_data(
+        result.split.X_train, result.split.y_train, fold, config=cfg
+    )
+    # Train classical/quantum models on x_tr_proc; evaluate on x_val_proc
+```
+
+#### 6. Supervised Feature Selection (Day 9)
+
+Apply leakage-safe Mutual Information or ANOVA F-test feature selection after preprocessing:
+
+```python
+from backend.data.feature_selection import fit_selector, transform_with_selector, build_selection_preview
+from backend.data.schemas import FeatureSelectionConfig
+
+# Configure selection (auto, manual, or proportion-based)
+sel_cfg = FeatureSelectionConfig(
+    method="anova",      # or "mutual_info"
+    mode="manual",       # or "auto"
+    k_features=15,       # manual: exact count; auto: upper bound
+    random_state=42,     # used by mutual_info for reproducibility
+)
+
+# Fit selector on preprocessed training data ONLY
+selector = fit_selector(X_train_proc, split.y_train, sel_cfg)
+
+# Apply selection (transform-only on test — no leakage)
+X_train_sel = transform_with_selector(selector, X_train_proc)  # (n_train, 15)
+X_test_sel  = transform_with_selector(selector, X_test_proc)   # (n_test,  15)
+
+# Get JSON-serializable preview for API/frontend
+preview = build_selection_preview(selector)
+# preview.features: [{name, score, rank, selected, pvalue}, ...]
+```
+
+See [docs/FEATURE_SELECTION.md](docs/FEATURE_SELECTION.md) for full specification.
+
+#### 7. Correlation Filtering & PCA (Day 10)
+
+Remove collinear features or project onto principal components:
+
+```python
+from backend.data.correlation_filter import fit_correlation_filter, transform_with_filter
+from backend.data.dimensionality_reduction import fit_pca, transform_with_pca
+from backend.data.schemas import CorrelationFilterConfig, PCAConfig
+
+# Correlation filter (removes |r| >= 0.95 features deterministically)
+filter_art = fit_correlation_filter(X_train_proc, CorrelationFilterConfig(threshold=0.95))
+X_train_filt = transform_with_filter(filter_art, X_train_proc)
+
+# PCA dimensionality reduction (Mode A: n_components=4, or Mode B: variance_target=0.95)
+pca_art = fit_pca(X_train_filt, PCAConfig(n_components=4))
+X_train_pca = transform_with_pca(pca_art, X_train_filt)  # Output columns: PC1..PC4
+```
+
+See [docs/CORRELATION_AND_PCA.md](docs/CORRELATION_AND_PCA.md) for full specification.
+
+#### 8. Comparison Modes & Qubit Compatibility (Day 11)
+
+Partition and validate datasets under three formal comparison modes:
+
+```python
+from backend.data.comparison_modes import prepare_comparison_mode
+from backend.data.schemas import ComparisonModeConfig, PCAConfig
+
+# Mode A: Matched Reduced Features (PRIMARY SCIENTIFIC MODE)
+cfg_a = ComparisonModeConfig(
+    mode="matched_reduced",
+    reduction_method="pca",
+    pca_config=PCAConfig(n_components=4),
+    qubit_count=4,
+)
+res_a = prepare_comparison_mode(X_train_proc, split.y_train, X_test_proc, split.y_test, config=cfg_a)
+print("Matched inputs:", res_a.is_matched_input)  # True
+
+# Mode B: Quantum-Limited Features (Qubit count determines reduction)
+cfg_b = ComparisonModeConfig(mode="quantum_limited", qubit_count=4, reduction_method="anova")
+res_b = prepare_comparison_mode(X_train_proc, split.y_train, X_test_proc, split.y_test, config=cfg_b)
+
+# Mode C: Best Practical Configuration (Practical comparison, unmatched representations)
+cfg_c = ComparisonModeConfig(mode="best_practical", classical_reduction_method="none", quantum_reduction_method="pca", qubit_count=4)
+res_c = prepare_comparison_mode(X_train_proc, split.y_train, X_test_proc, split.y_test, config=cfg_c)
+print("Matched inputs:", res_c.is_matched_input)  # False (Practical comparison)
+```
+
+See [docs/COMPARISON_MODES.md](docs/COMPARISON_MODES.md) for full specification.
+
+### 9. Classical Baseline & Model-Independent Evaluation
+
+Train the zero-knowledge `DummyBaseline` and compute comprehensive, JSON-serializable evaluation metrics across classical and quantum models:
+
+```python
+from backend.classical import DummyBaseline
+from backend.evaluation import evaluate_predictions
+
+# Fit the classical dummy baseline strictly on training data
+baseline = DummyBaseline()
+baseline.fit(X_train_proc, split.y_train)
+
+# Predict class labels and probabilities on held-out test data
+y_pred = baseline.predict(X_test_proc)
+y_proba = baseline.predict_proba(X_test_proc)
+
+# Compute standardized metrics (Accuracy, Macro/Weighted F1, OvR ROC-AUC, Confusion Matrix)
+results = evaluate_predictions(
+    y_true=split.y_test,
+    y_pred=y_pred,
+    y_proba=y_proba,
+    class_labels=bundle.target_classes,
+)
+
+print("Accuracy:", results.accuracy)
+print("ROC-AUC:", results.roc_auc)
+print("Experiment Schema Output:", results.to_experiment_metrics_dict())
+```
+
+See [docs/CLASSICAL_BASELINE_AND_METRICS.md](docs/CLASSICAL_BASELINE_AND_METRICS.md) for full specification.
 
 ### Exported Artifacts
 

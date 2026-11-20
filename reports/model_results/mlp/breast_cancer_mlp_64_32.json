@@ -1,0 +1,148 @@
+{
+  "experiment_title": "Breast Cancer MLP (64, 32) Baseline",
+  "dataset_name": "breast_cancer",
+  "split_seed": 42,
+  "test_size": 0.2,
+  "model_config": {
+    "model_name": "mlp",
+    "model_family": "classical",
+    "hidden_layer_sizes": [
+      64,
+      32
+    ],
+    "total_hidden_neurons": 96,
+    "activation": "relu",
+    "solver": "adam",
+    "alpha": 0.0001,
+    "learning_rate_init": 0.001,
+    "max_iter": 300,
+    "random_state": 42,
+    "early_stopping": false,
+    "validation_fraction": 0.1,
+    "n_iter_no_change": 10,
+    "execution_device": "CPU",
+    "is_fitted": true,
+    "training_time_seconds": 0.368832,
+    "inference_time_seconds": 0.000404,
+    "classes": [
+      0,
+      1
+    ],
+    "n_features_in": 30,
+    "n_samples_in": 455,
+    "feature_names_in": [
+      "num__mean radius",
+      "num__mean texture",
+      "num__mean perimeter",
+      "num__mean area",
+      "num__mean smoothness",
+      "num__mean compactness",
+      "num__mean concavity",
+      "num__mean concave points",
+      "num__mean symmetry",
+      "num__mean fractal dimension",
+      "num__radius error",
+      "num__texture error",
+      "num__perimeter error",
+      "num__area error",
+      "num__smoothness error",
+      "num__compactness error",
+      "num__concavity error",
+      "num__concave points error",
+      "num__symmetry error",
+      "num__fractal dimension error",
+      "num__worst radius",
+      "num__worst texture",
+      "num__worst perimeter",
+      "num__worst area",
+      "num__worst smoothness",
+      "num__worst compactness",
+      "num__worst concavity",
+      "num__worst concave points",
+      "num__worst symmetry",
+      "num__worst fractal dimension"
+    ],
+    "n_iter": 164,
+    "loss": 0.004521,
+    "best_loss": 0.004521,
+    "converged": true,
+    "convergence_warning": null,
+    "n_layers": 4,
+    "warnings": []
+  },
+  "evaluation_metrics": {
+    "accuracy": 0.964912,
+    "precision": {
+      "macro": 0.958766,
+      "weighted": 0.965858,
+      "positive": 0.985714,
+      "per_class": {
+        "0": 0.931818,
+        "1": 0.985714
+      }
+    },
+    "recall": {
+      "macro": 0.967262,
+      "weighted": 0.964912,
+      "positive": 0.958333,
+      "per_class": {
+        "0": 0.97619,
+        "1": 0.958333
+      }
+    },
+    "f1_macro": 0.96266,
+    "f1_weighted": 0.965073,
+    "f1": {
+      "macro": 0.96266,
+      "weighted": 0.965073,
+      "positive": 0.971831,
+      "per_class": {
+        "0": 0.953488,
+        "1": 0.971831
+      }
+    },
+    "balanced_accuracy": 0.967262,
+    "roc_auc": {
+      "value": 0.993717,
+      "ovr_macro": 0.993717,
+      "ovr_weighted": 0.993717,
+      "per_class": {
+        "1": 0.993717
+      }
+    },
+    "confusion_matrix": [
+      [
+        41,
+        1
+      ],
+      [
+        3,
+        69
+      ]
+    ],
+    "class_labels": [
+      0,
+      1
+    ],
+    "sample_count": 114,
+    "task_type": "binary",
+    "positive_label": 1,
+    "warnings": [],
+    "metadata": {
+      "zero_division_policy": 0.0,
+      "probabilities_provided": true,
+      "decision_scores_provided": false,
+      "score_type": "probabilities",
+      "labels_source": "explicit"
+    }
+  },
+  "experiment_schema_metrics": {
+    "accuracy": 0.964912,
+    "precision_macro": 0.958766,
+    "recall_macro": 0.967262,
+    "f1_macro": 0.96266,
+    "f1_weighted": 0.965073,
+    "balanced_accuracy": 0.967262,
+    "roc_auc": 0.993717
+  }
+}

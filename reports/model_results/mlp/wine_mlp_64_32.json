@@ -1,0 +1,145 @@
+{
+  "experiment_title": "Wine Multiclass MLP (64, 32) Baseline",
+  "dataset_name": "wine",
+  "split_seed": 42,
+  "test_size": 0.2,
+  "model_config": {
+    "model_name": "mlp",
+    "model_family": "classical",
+    "hidden_layer_sizes": [
+      64,
+      32
+    ],
+    "total_hidden_neurons": 96,
+    "activation": "relu",
+    "solver": "adam",
+    "alpha": 0.0001,
+    "learning_rate_init": 0.001,
+    "max_iter": 400,
+    "random_state": 42,
+    "early_stopping": false,
+    "validation_fraction": 0.1,
+    "n_iter_no_change": 10,
+    "execution_device": "CPU",
+    "is_fitted": true,
+    "training_time_seconds": 0.114502,
+    "inference_time_seconds": 0.000286,
+    "classes": [
+      0,
+      1,
+      2
+    ],
+    "n_features_in": 13,
+    "n_samples_in": 142,
+    "feature_names_in": [
+      "num__alcohol",
+      "num__malic_acid",
+      "num__ash",
+      "num__alcalinity_of_ash",
+      "num__magnesium",
+      "num__total_phenols",
+      "num__flavanoids",
+      "num__nonflavanoid_phenols",
+      "num__proanthocyanins",
+      "num__color_intensity",
+      "num__hue",
+      "num__od280/od315_of_diluted_wines",
+      "num__proline"
+    ],
+    "n_iter": 182,
+    "loss": 0.006583,
+    "best_loss": 0.006583,
+    "converged": true,
+    "convergence_warning": null,
+    "n_layers": 4,
+    "warnings": []
+  },
+  "evaluation_metrics": {
+    "accuracy": 0.972222,
+    "precision": {
+      "macro": 0.977778,
+      "weighted": 0.974074,
+      "positive": null,
+      "per_class": {
+        "0": 1.0,
+        "1": 0.933333,
+        "2": 1.0
+      }
+    },
+    "recall": {
+      "macro": 0.966667,
+      "weighted": 0.972222,
+      "positive": null,
+      "per_class": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 0.9
+      }
+    },
+    "f1_macro": 0.970962,
+    "f1_weighted": 0.97197,
+    "f1": {
+      "macro": 0.970962,
+      "weighted": 0.97197,
+      "positive": null,
+      "per_class": {
+        "0": 1.0,
+        "1": 0.965517,
+        "2": 0.947368
+      }
+    },
+    "balanced_accuracy": 0.966667,
+    "roc_auc": {
+      "value": 1.0,
+      "ovr_macro": 1.0,
+      "ovr_weighted": 1.0,
+      "per_class": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        12,
+        0,
+        0
+      ],
+      [
+        0,
+        14,
+        0
+      ],
+      [
+        0,
+        1,
+        9
+      ]
+    ],
+    "class_labels": [
+      0,
+      1,
+      2
+    ],
+    "sample_count": 36,
+    "task_type": "multiclass",
+    "positive_label": null,
+    "warnings": [],
+    "metadata": {
+      "zero_division_policy": 0.0,
+      "probabilities_provided": true,
+      "decision_scores_provided": false,
+      "score_type": "probabilities",
+      "labels_source": "explicit"
+    }
+  },
+  "experiment_schema_metrics": {
+    "accuracy": 0.972222,
+    "precision_macro": 0.977778,
+    "recall_macro": 0.966667,
+    "f1_macro": 0.970962,
+    "f1_weighted": 0.97197,
+    "balanced_accuracy": 0.966667,
+    "roc_auc": 1.0
+  }
+}
